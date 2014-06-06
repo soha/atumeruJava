@@ -45,6 +45,6 @@ public class EventRepositoryIntegrationTests {
 	public void findsFirstPageOfCities() {
 
 		Page<Event> cities = this.repository.findAll(new PageRequest(0, 10));
-		assertThat(cities.getTotalElements(), is(greaterThan(20L)));
+		assertThat(cities.getTotalElements(), is(5L));
 	}
 }

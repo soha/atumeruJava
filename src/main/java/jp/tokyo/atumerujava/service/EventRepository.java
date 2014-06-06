@@ -26,6 +26,6 @@ public interface EventRepository extends Repository<Event, Long> {
 
 	Page<Event> findAll(Pageable pageable);
 
-	Event findByTitle(String title);
+	//Event findByTitle(String title);
 
 }

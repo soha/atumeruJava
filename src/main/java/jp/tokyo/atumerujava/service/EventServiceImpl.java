@@ -32,21 +32,26 @@ class EventServiceImpl implements EventService {
 
 	private final EventRepository eventRepository;
 
-	//private final HotelRepository hotelRepository;
 
 	@Autowired
-	//public EventServiceImpl(EventRepository eventRepository, HotelRepository hotelRepository) {
 	public EventServiceImpl(EventRepository eventRepository) {
 		this.eventRepository = eventRepository;
 	}
 
 
 	@Override
-	public Event getEvent(String title, java.util.Date start, java.util.Date end) {
-		Assert.notNull(title, "Name must not be null");
-		//Assert.notNull(country, "Country must not be null");
-		//Assert.isTrue(expression, message);
-		return this.eventRepository.findByTitle(title);
+	public Page<Event> findEvent(EventSearchCriteria criteria, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
+//	@Override
+//	public Event getEvent(String title, java.util.Date start, java.util.Date end) {
+//		Assert.notNull(title, "Name must not be null");
+//		//Assert.notNull(country, "Country must not be null");
+//		//Assert.isTrue(expression, message);
+//		return this.eventRepository.findByTitle(title);
+//	}
 
 }

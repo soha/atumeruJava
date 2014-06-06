@@ -23,7 +23,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface EventService {
 
-	//Page<Event> findEvent(EventSearchCriteria criteria, Pageable pageable);
+	Page<Event> findEvent(EventSearchCriteria criteria, Pageable pageable);
 
-	Event getEvent(String title, java.util.Date start, java.util.Date end);
+	//Event getEvent(String title, java.util.Date start, java.util.Date end);
 }
