@@ -21,6 +21,7 @@ import jp.tokyo.atumerujava.service.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -34,8 +35,8 @@ public class EventController {
 
 	@RequestMapping("/events")
 	@Transactional(readOnly = true)
-    public String index(Model model) {
-		Page<Event> eventList = eventService.findAll(null);
+    public String index(Model model, Pageable pagable) {
+		Page<Event> eventList = eventService.findAll(pagable);
         model.addAttribute("events", eventList);
         return "events";
 	}
