@@ -14,18 +14,29 @@
  * limitations under the License.
  */
 
-package jp.tokyo.atumerujava.service;
+package jp.tokyo.atumerujava.web;
 
 import jp.tokyo.atumerujava.domain.Event;
+import jp.tokyo.atumerujava.service.EventService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public interface EventService {
+@Controller
+public class EventController {
 
-	Page<Event> findAll(Pageable pageable);
-	
-	Page<Event> findEvent(EventSearchCriteria criteria, Pageable pageable);
+	@Autowired
+	private EventService eventService;
 
-	//Event getEvent(String title, java.util.Date start, java.util.Date end);
+	@RequestMapping("/events")
+	@Transactional(readOnly = true)
+    public String index(Model model) {
+		Page<Event> eventList = eventService.findAll(null);
+        model.addAttribute("events", eventList);
+        return "events";
+	}
 }

@@ -46,6 +46,12 @@ class EventServiceImpl implements EventService {
 	}
 
 
+	@Override
+	public Page<Event> findAll(Pageable pageable) {
+		return this.eventRepository.findAll(pageable);
+	}
+
+
 //	@Override
 //	public Event getEvent(String title, java.util.Date start, java.util.Date end) {
 //		Assert.notNull(title, "Name must not be null");
