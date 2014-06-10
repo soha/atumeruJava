@@ -8,3 +8,4 @@
 
 # gradle file
 .gradle
+/bin/

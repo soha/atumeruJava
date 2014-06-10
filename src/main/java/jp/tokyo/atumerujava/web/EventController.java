@@ -17,6 +17,7 @@
 package jp.tokyo.atumerujava.web;
 
 import jp.tokyo.atumerujava.domain.Event;
+import jp.tokyo.atumerujava.service.EventRepository;
 import jp.tokyo.atumerujava.service.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +26,74 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequestMapping(value="/events")
 public class EventController {
 
 	@Autowired
 	private EventService eventService;
-
-	@RequestMapping("/events")
+	
+	@RequestMapping(value={"", "/", "/list"}, method=RequestMethod.GET)
 	@Transactional(readOnly = true)
     public String index(Model model, Pageable pagable) {
 		Page<Event> eventList = eventService.findAll(pagable);
         model.addAttribute("events", eventList);
-        return "events";
+        return "events/list";
 	}
+
+	@RequestMapping(value="/new", method=RequestMethod.GET)
+	public String form(Model model) {
+		return "events/create";
+	}	
+
+	@RequestMapping(value="/create", method=RequestMethod.POST)
+	public String create(@ModelAttribute("event") Event event, Model model) {
+		Event newEvent = eventService.save(event);
+		return "redirect:/events/" + newEvent.getId().toString();
+	}	
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String show(@PathVariable("id") Integer id, Model model) {
+		Event event = eventService.findOne(id);
+		model.addAttribute("event", event);
+		return "events/show";
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	public String update(@ModelAttribute("event") Event event, Model model) {
+		Event updatedEvent = eventService.save(event);
+		model.addAttribute("event", updatedEvent);
+		return "redirect:/events/" + updatedEvent.getId();
+	}
+
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+		Event event = eventService.findOne(id);
+		uiModel.addAttribute("event", event);
+		return "events/edit";
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public String delete(@PathVariable("id") Integer id, Model model) {
+		eventService.delete(id);
+		model.asMap().clear();
+		return "redirect:/events/list";
+	}
+
+//	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
+//		String enc = httpServletRequest.getCharacterEncoding();
+//		if (enc == null) {
+//			enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
+//		}
+//		try {
+//			pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+//		}
+//		catch (UnsupportedEncodingException uee) {}
+//		return pathSegment;
+//	}	
 }

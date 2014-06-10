@@ -52,6 +52,30 @@ class EventServiceImpl implements EventService {
 	}
 
 
+	@Override
+	public Event findOne(long id) {
+		return this.eventRepository.findOne(id);
+	}
+
+
+	@Override
+	public Event save(Event event) {
+		return this.eventRepository.save(event);
+	}
+
+
+	@Override
+	public Event update(Event event) {
+		return this.update(event);
+	}
+
+
+	@Override
+	public void delete(long id) {
+		this.eventRepository.delete(id);
+	}
+
+
 //	@Override
 //	public Event getEvent(String title, java.util.Date start, java.util.Date end) {
 //		Assert.notNull(title, "Name must not be null");

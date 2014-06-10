@@ -23,6 +23,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * イベントを表すクラス
  * @author sohatach

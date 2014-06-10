@@ -28,4 +28,11 @@ public interface EventService {
 	Page<Event> findEvent(EventSearchCriteria criteria, Pageable pageable);
 
 	//Event getEvent(String title, java.util.Date start, java.util.Date end);
+	Event findOne(long id);
+	
+	Event save(Event event);
+	
+	Event update(Event event);
+	
+	void delete(long id);
 }
