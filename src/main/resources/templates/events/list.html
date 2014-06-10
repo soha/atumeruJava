@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <li th:each="event : ${events}" th:text="${event.title}"></li>
+<ul>
+    <a th:each="event : ${events}" th:href="@{/events/__${event.id}__}"><li th:text="${event.title}"></li></a>
+</ul>    
 </body>
 </html>
