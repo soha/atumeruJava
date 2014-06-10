@@ -20,6 +20,13 @@ jar {
     version =  '0.0.1-SNAPSHOT'
 }
 
+eclipse {
+    classpath {
+       downloadSources=true
+       downloadJavadocs=true
+    }
+}
+
 repositories {
     mavenCentral()
 }
