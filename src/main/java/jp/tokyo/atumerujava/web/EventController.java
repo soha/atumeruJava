@@ -16,8 +16,9 @@
 
 package jp.tokyo.atumerujava.web;
 
+import javax.validation.Valid;
+
 import jp.tokyo.atumerujava.domain.Event;
-import jp.tokyo.atumerujava.service.EventRepository;
 import jp.tokyo.atumerujava.service.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @RequestMapping(value="/events")
@@ -48,11 +51,16 @@ public class EventController {
 
 	@RequestMapping(value="/new", method=RequestMethod.GET)
 	public String form(Model model) {
+		model.addAttribute("event", new Event());
 		return "events/create";
 	}	
 
 	@RequestMapping(value="/create", method=RequestMethod.POST)
-	public String create(@ModelAttribute("event") Event event, Model model) {
+	public String create(@Valid @ModelAttribute("event") Event event, BindingResult result, SessionStatus status) {
+		if(result.hasErrors()) {
+			//model.addAttribute("event", event);
+			return "events/create";
+		}
 		Event newEvent = eventService.save(event);
 		return "redirect:/events/" + newEvent.getId().toString();
 	}	
@@ -65,7 +73,7 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public String update(@ModelAttribute("event") Event event, Model model) {
+	public String update(@Valid @ModelAttribute("event") Event event, Model model) {
 		Event updatedEvent = eventService.save(event);
 		model.addAttribute("event", updatedEvent);
 		return "redirect:/events/" + updatedEvent.getId();

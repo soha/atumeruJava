@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -40,15 +41,18 @@ public class Event implements Serializable {
 	private Long id;
 
 	@Column(nullable = false)
+	@NotEmpty
 	private String title;
 
 	@Column(nullable = true)
+	@DateTimeFormat(pattern="YYYY/MM/dd HH:mm:ss")
 	private java.util.Date startDatetime;
 
 	@Column(nullable = true)
+	@DateTimeFormat(pattern="YYYY/MM/dd HH:mm:ss")
 	private java.util.Date endDatetime;
 
-	protected Event() {
+	public Event() {
 	}
 
 	public Event(String title, java.util.Date start, java.util.Date end) {
